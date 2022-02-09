@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
@@ -11,7 +11,12 @@ import * as dat from "lil-gui";
 export default {
   setup() {
     // Canvas
+    const gui = new dat.GUI({
+      // closed: true,
+      width: 400,
+    });
     const webgl = ref(null);
+
     onMounted(() => {
       /**
        * Base
@@ -85,10 +90,7 @@ export default {
       /**
        * Debug
        */
-      const gui = new dat.GUI({
-        // closed: true,
-        width: 400,
-      });
+
       // gui.hide()
       gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("elevation");
       gui.add(mesh, "visible");
@@ -126,6 +128,9 @@ export default {
       };
 
       tick();
+    });
+    onUnmounted(() => {
+      gui.hide();
     });
     return { webgl };
   },

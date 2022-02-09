@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "lil-gui";
@@ -14,13 +14,13 @@ import typefaceFont from "three/examples/fonts/helvetiker_regular.typeface.json"
 export default {
   setup() {
     // Canvas
+    // Debug
+    const gui = new dat.GUI();
     const webgl = ref(null);
     onMounted(() => {
       /**
        * Base
        */
-      // Debug
-      const gui = new dat.GUI();
 
       // Canvas
 
@@ -148,6 +148,10 @@ export default {
       };
 
       tick();
+    });
+
+    onUnmounted(() => {
+      gui.hide();
     });
     return { webgl };
   },
