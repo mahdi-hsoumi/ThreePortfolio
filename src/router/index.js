@@ -1,20 +1,65 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
+import BasicScene from "../views/BasicScene.vue";
+import TransformObjects from "../views/TransformObjects.vue";
+import Animations from "../views/Animations.vue";
+import Cameras from "../views/Cameras.vue";
+import FullscreenAndResizing from "../views/FullscreenAndResizing.vue";
+import Geometries from "../views/Geometries.vue";
+import DebugUi from "../views/DebugUi.vue";
+import Textures from "../views/Textures.vue";
+import Materials from "../views/Materials.vue";
+import Text3d from "../views/Text3d.vue";
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home,
+    path: "/basic-scene",
+    name: "BasicScene",
+    component: BasicScene,
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    path: "/transform-objects",
+    name: "TransformObjects",
+    component: TransformObjects,
+  },
+  {
+    path: "/animations",
+    name: "Animations",
+    component: Animations,
+  },
+  {
+    path: "/cameras",
+    name: "Cameras",
+    component: Cameras,
+  },
+  {
+    path: "/fullscreen-and-resizing",
+    name: "FullscreenAndResizing",
+    component: FullscreenAndResizing,
+  },
+  {
+    path: "/geometries",
+    name: "Geometries",
+    component: Geometries,
+  },
+  {
+    path: "/debug-ui",
+    name: "DebugUi",
+    component: DebugUi,
+  },
+  {
+    path: "/textures",
+    name: "Textures",
+    component: Textures,
+  },
+  {
+    path: "/materials",
+    name: "Materials",
+    component: Materials,
+  },
+  {
+    path: "/text-3d",
+    name: "Text3d",
+    component: Text3d,
   },
 ];
 
