@@ -80,6 +80,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 100px;
 }
 
 #nav .link {
@@ -92,7 +95,6 @@ export default {
 }
 
 .linksContainer {
-  height: 100px;
   margin-left: 10px;
   display: flex;
   justify-content: center;
