@@ -9,8 +9,14 @@ import DebugUi from "../views/DebugUi.vue";
 import Textures from "../views/Textures.vue";
 import Materials from "../views/Materials.vue";
 import Text3d from "../views/Text3d.vue";
+import Index from "../views/Index.vue";
 
 const routes = [
+  {
+    path: "/",
+    name: "Home",
+    component: Index,
+  },
   {
     path: "/basic-scene",
     name: "BasicScene",
