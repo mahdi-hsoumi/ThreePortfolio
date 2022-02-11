@@ -46,7 +46,7 @@ export default {
         const material = new THREE.MeshNormalMaterial({});
 
         // Text
-        const textGeometry = new TextGeometry("Hello Three.js", {
+        const textGeometry = new TextGeometry("Bixos", {
           font: font,
           size: 0.5,
           height: 0.2,

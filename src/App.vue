@@ -58,6 +58,18 @@ export default {
         path: "/text-3d",
         title: "3D Text",
       },
+      {
+        path: "/lights",
+        title: "Lights",
+      },
+      {
+        path: "/shadows",
+        title: "Shadows",
+      },
+      {
+        path: "/hunted-house",
+        title: "HuntedHouse",
+      },
     ]);
     return {
       links,

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Index from "../views/Index.vue";
 import BasicScene from "../views/BasicScene.vue";
 import TransformObjects from "../views/TransformObjects.vue";
 import Animations from "../views/Animations.vue";
@@ -9,7 +10,9 @@ import DebugUi from "../views/DebugUi.vue";
 import Textures from "../views/Textures.vue";
 import Materials from "../views/Materials.vue";
 import Text3d from "../views/Text3d.vue";
-import Index from "../views/Index.vue";
+import Lights from "../views/Lights.vue";
+import Shadows from "../views/Shadows.vue";
+import HuntedHouse from "../views/HuntedHouse.vue";
 
 const routes = [
   {
@@ -66,6 +69,21 @@ const routes = [
     path: "/text-3d",
     name: "Text3d",
     component: Text3d,
+  },
+  {
+    path: "/lights",
+    name: "Lights",
+    component: Lights,
+  },
+  {
+    path: "/shadows",
+    name: "Shadows",
+    component: Shadows,
+  },
+  {
+    path: "/hunted-house",
+    name: "HuntedHouse",
+    component: HuntedHouse,
   },
 ];
 
