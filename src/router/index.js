@@ -13,6 +13,7 @@ import Text3d from "../views/Text3d.vue";
 import Lights from "../views/Lights.vue";
 import Shadows from "../views/Shadows.vue";
 import HuntedHouse from "../views/HuntedHouse.vue";
+import Particles from "../views/Particles.vue";
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
     path: "/hunted-house",
     name: "HuntedHouse",
     component: HuntedHouse,
+  },
+  {
+    path: "/particles",
+    name: "Particles",
+    component: Particles,
   },
 ];
 

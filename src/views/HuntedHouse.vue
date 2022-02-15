@@ -33,6 +33,26 @@ export default {
        */
       const textureLoader = new THREE.TextureLoader();
 
+      const stickColorTexture = textureLoader.load(
+        "/textures/stick/woodColor.jpg"
+      );
+      const stickNormalTexture = textureLoader.load(
+        "/textures/stick/woodNormal.jpg"
+      );
+      const stickRoughnessTexture = textureLoader.load(
+        "/textures/stick/woodRoughness.jpg"
+      );
+
+      const shovelColorTexture = textureLoader.load(
+        "/textures/stick/metalColor.jpg"
+      );
+      const shovelNormalTexture = textureLoader.load(
+        "/textures/stick/metalNormal.jpg"
+      );
+      const shovelRoughnessTexture = textureLoader.load(
+        "/textures/stick/metalRoughness.jpg"
+      );
+
       const doorColorTexture = textureLoader.load("/textures/door/color.jpg");
       const doorAlphaTexture = textureLoader.load("/textures/door/alpha.jpg");
       const doorAmbientOcclusionTexture = textureLoader.load(
@@ -166,6 +186,58 @@ export default {
 
       scene.add(bush1, bush2, bush3, bush4);
 
+      // Shovel
+      const shovel = new THREE.Group();
+      shovel.position.set(-1, 0.6, 3.5);
+      shovel.rotation.y = Math.PI;
+      // shovel.rotation.
+      scene.add(shovel);
+
+      const shovelStickGeometry = new THREE.CylinderGeometry(
+        0.023,
+        0.023,
+        0.7,
+        20
+      );
+
+      const shovelStickMaterial = new THREE.MeshStandardMaterial({
+        map: stickColorTexture,
+        normalMap: stickNormalTexture,
+        roughnessMap: stickRoughnessTexture,
+      });
+      const shovelStick = new THREE.Mesh(
+        shovelStickGeometry,
+        shovelStickMaterial
+      );
+      shovelStick.position.y = -0.17;
+      shovelStick.position.z = 0.005;
+      shovel.add(shovelStick);
+
+      const shovelHeadGeometry = new THREE.CylinderGeometry(
+        0.35,
+        0.4,
+        0.3,
+        3,
+        1,
+        true,
+        0,
+        0.5
+      );
+      const shovelHeadMaterial = new THREE.MeshStandardMaterial({
+        map: shovelColorTexture,
+        normalMap: shovelNormalTexture,
+        roughnessMap: shovelRoughnessTexture,
+      });
+      shovelHeadMaterial.side = THREE.DoubleSide;
+
+      const shovelHead = new THREE.Mesh(shovelHeadGeometry, shovelHeadMaterial);
+
+      shovelHead.position.x = -0.09;
+      shovelHead.position.y = -0.5;
+      shovelHead.position.z = -0.37;
+      shovelHead.rotation.x = 0.4;
+      shovel.add(shovelHead);
+
       // Graves
       const graves = new THREE.Group();
       scene.add(graves);
@@ -175,9 +247,9 @@ export default {
         color: "#b2b6b1",
       });
 
-      for (let index = 0; index < 50; index++) {
+      for (let index = 0; index < 100; index++) {
         const angle = Math.random() * Math.PI * 2;
-        const radius = 4 + Math.random() * 6;
+        const radius = 4 + Math.random() * 12;
         const x = Math.sin(angle) * radius;
         const z = Math.cos(angle) * radius;
 
@@ -191,7 +263,7 @@ export default {
 
       // Floor
       const floor = new THREE.Mesh(
-        new THREE.PlaneGeometry(20, 20),
+        new THREE.PlaneGeometry(40, 40),
         new THREE.MeshStandardMaterial({
           map: grassColorTexture,
           aoMap: grassAmbientOcclusionTexture,
@@ -274,11 +346,25 @@ export default {
       camera.position.x = 4;
       camera.position.y = 2;
       camera.position.z = 5;
+      camera.lookAt(
+        new THREE.Vector3(
+          shovel.position.x,
+          shovel.position.y,
+          shovel.position.z
+        )
+      );
       scene.add(camera);
 
       // Controls
       const controls = new OrbitControls(camera, webgl.value);
       controls.enableDamping = true;
+      controls.keyPanSpeed = 7;
+      controls.keys = {
+        LEFT: "ArrowLeft", //left arrow
+        UP: "ArrowUp", // up arrow
+        RIGHT: "ArrowRight", // right arrow
+        BOTTOM: "ArrowDown", // down arrow
+      };
 
       /**
        * Renderer

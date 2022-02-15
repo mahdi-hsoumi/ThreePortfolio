@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div id="nav">
+    <div id="nav" v-if="!hideNav">
       <div v-for="link in links" :key="link.path" class="linksContainer">
         <router-link class="link" :to="link.path"
           >|{{ link.title }}|</router-link
         >
       </div>
     </div>
+    <button class="button" @click="hideNav = !hideNav">
+      {{ hideNav ? "Show Nav Bar" : "Hide Nav Bar" }}
+    </button>
     <div style="position: relative; height: calc(100vh); width: 100vw">
       <router-view />
     </div>
@@ -70,9 +73,14 @@ export default {
         path: "/hunted-house",
         title: "HuntedHouse",
       },
+      {
+        path: "/particles",
+        title: "Particles",
+      },
     ]);
     return {
       links,
+      hideNav: ref(true),
     };
   },
 };
@@ -95,6 +103,16 @@ export default {
   flex-wrap: wrap;
   overflow-y: scroll;
   height: 100px;
+}
+
+.button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 9999;
 }
 
 #nav .link {
