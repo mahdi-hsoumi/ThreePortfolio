@@ -142,7 +142,8 @@ export default {
 }
 
 .linksContainer {
-  margin-top: 15px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 
 * {
