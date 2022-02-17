@@ -1,24 +1,44 @@
 <template>
   <div>
-    <div id="nav" v-if="!hideNav">
-      <div v-for="link in links" :key="link.path" class="linksContainer">
-        <router-link class="link" :to="link.path"
-          >|{{ link.title }}|</router-link
-        >
+    <Drawer :direction="'left'" :exist="true" ref="LeftDrawer">
+      <div id="nav">
+        <div v-for="link in links" :key="link.path" class="linksContainer">
+          <router-link class="link" :to="link.path"
+            >|{{ link.title }}|</router-link
+          >
+        </div>
       </div>
+    </Drawer>
+
+    <div
+      @click="openMenu"
+      class="hamburger"
+      :class="hamburgerOpen ? 'hamburger--is-open' : ''"
+    >
+      <div class="hamburger__item hamburger__item--first"></div>
+      <div class="hamburger__item hamburger__item--middle"></div>
+      <div class="hamburger__item hamburger__item--last"></div>
     </div>
-    <button class="button" @click="hideNav = !hideNav">
-      {{ hideNav ? "Show Nav Bar" : "Hide Nav Bar" }}
-    </button>
-    <div style="position: relative; height: calc(100vh); width: 100vw">
-      <router-view />
-    </div>
+
+    <router-view />
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
+import Drawer from "./components/Drawer.vue";
 export default {
+  components: { Drawer },
+  methods: {
+    openMenu() {
+      this.hamburgerOpen = !this.hamburgerOpen;
+      if (this.$refs.LeftDrawer.active) {
+        this.$refs.LeftDrawer.close();
+      } else {
+        this.$refs.LeftDrawer.open();
+      }
+    },
+  },
   setup() {
     const links = ref([
       {
@@ -77,42 +97,39 @@ export default {
         path: "/particles",
         title: "Particles",
       },
+      {
+        path: "/galaxy-generator",
+        title: "Galaxy Generator",
+      },
+      {
+        path: "/raycaster",
+        title: "Raycaster",
+      },
+      {
+        path: "/scroll-based-animation",
+        title: "ScrollBasedAnimation",
+      },
     ]);
     return {
       links,
-      hideNav: ref(true),
+      hamburgerOpen: ref(true),
     };
   },
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
 #nav {
-  padding: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  overflow-y: scroll;
-  height: 100px;
-}
-
-.button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  z-index: 9999;
+  padding-top: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 #nav .link {
@@ -125,10 +142,7 @@ export default {
 }
 
 .linksContainer {
-  margin-left: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 15px;
 }
 
 * {
@@ -138,17 +152,58 @@ export default {
 
 html,
 body {
-  overflow: hidden;
+  background: #1e1a20;
+  /* overflow: hidden; */
 }
 
 .fullscreen-canvas {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
   outline: none;
+  width: 100%;
 }
-.lil-gui.autoPlace {
-  top: 160px;
-  right: 0;
+
+.hamburger {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 9999;
+  height: 28px;
+  width: 33px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__item {
+    height: 4px;
+    width: 100%;
+    background: #42b983;
+    transition: transform 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95),
+      opacity 300ms linear;
+
+    &--first {
+      .hamburger--is-open & {
+        transform: translate(0, 12px) rotate(45deg);
+      }
+    }
+
+    &--middle {
+      .hamburger--is-open & {
+        opacity: 0;
+      }
+    }
+
+    &--last {
+      .hamburger--is-open & {
+        transform: translate(0, -12px) rotate(-45deg);
+      }
+    }
+  }
 }
 </style>

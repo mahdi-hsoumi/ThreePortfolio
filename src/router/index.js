@@ -14,6 +14,9 @@ import Lights from "../views/Lights.vue";
 import Shadows from "../views/Shadows.vue";
 import HuntedHouse from "../views/HuntedHouse.vue";
 import Particles from "../views/Particles.vue";
+import GalaxyGenerator from "../views/GalaxyGenerator.vue";
+import Raycaster from "../views/Raycaster.vue";
+import ScrollBasedAnimation from "../views/ScrollBasedAnimation.vue";
 
 const routes = [
   {
@@ -90,6 +93,21 @@ const routes = [
     path: "/particles",
     name: "Particles",
     component: Particles,
+  },
+  {
+    path: "/galaxy-generator",
+    name: "GalaxyGenerator",
+    component: GalaxyGenerator,
+  },
+  {
+    path: "/raycaster",
+    name: "Raycaster",
+    component: Raycaster,
+  },
+  {
+    path: "/scroll-based-animation",
+    name: "ScrollBasedAnimation",
+    component: ScrollBasedAnimation,
   },
 ];
 

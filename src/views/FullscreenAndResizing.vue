@@ -25,13 +25,10 @@ export default {
       /**
        * Sizes
        */
-      console.log(
-        "webgl.value.parentNode :>> ",
-        webgl.value.parentElement.clientWidth
-      );
+
       const sizes = {
-        width: webgl.value.parentElement.clientWidth,
-        height: webgl.value.parentElement.clientHeight,
+        width: window.innerWidth,
+        height: window.innerHeight,
       };
 
       window.addEventListener("resize", () => {
