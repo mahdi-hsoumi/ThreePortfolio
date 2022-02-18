@@ -5,7 +5,7 @@
       <h1>UBXS Token</h1>
     </section>
     <section class="section">
-      <h2>Bixos Moon</h2>
+      <h2>BXS Moon</h2>
     </section>
     <section class="section">
       <h2>Tron Network</h2>
