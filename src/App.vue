@@ -112,7 +112,7 @@ export default {
     ]);
     return {
       links,
-      hamburgerOpen: ref(true),
+      hamburgerOpen: ref(false),
     };
   },
 };
@@ -166,6 +166,7 @@ body {
 }
 
 .hamburger {
+  transition: all 0.4s ease-in-out;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -206,5 +207,9 @@ body {
       }
     }
   }
+}
+.hamburger--is-open {
+  left: 250px;
+  transition: all 0.4s ease-in-out;
 }
 </style>

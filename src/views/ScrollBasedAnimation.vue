@@ -2,13 +2,13 @@
   <div>
     <canvas class="fullscreen-canvas" ref="webgl"></canvas>
     <section class="section">
-      <h1>My Portfolio</h1>
+      <h1>UBXS Token</h1>
     </section>
     <section class="section">
-      <h2>My projects</h2>
+      <h2>Bixos Moon</h2>
     </section>
     <section class="section">
-      <h2>Contact me</h2>
+      <h2>Tron Network</h2>
     </section>
   </div>
 </template>
