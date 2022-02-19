@@ -17,6 +17,8 @@ import Particles from "../views/Particles.vue";
 import GalaxyGenerator from "../views/GalaxyGenerator.vue";
 import Raycaster from "../views/Raycaster.vue";
 import ScrollBasedAnimation from "../views/ScrollBasedAnimation.vue";
+import Physics from "../views/Physics.vue";
+import ImportedModels from "../views/ImportedModels.vue";
 
 const routes = [
   {
@@ -108,6 +110,16 @@ const routes = [
     path: "/scroll-based-animation",
     name: "ScrollBasedAnimation",
     component: ScrollBasedAnimation,
+  },
+  {
+    path: "/physics",
+    name: "Physics",
+    component: Physics,
+  },
+  {
+    path: "/imported-models",
+    name: "ImportedModels",
+    component: ImportedModels,
   },
 ];
 

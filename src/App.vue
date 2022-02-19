@@ -109,6 +109,14 @@ export default {
         path: "/scroll-based-animation",
         title: "ScrollBasedAnimation",
       },
+      {
+        path: "/physics",
+        title: "Physics",
+      },
+      {
+        path: "/imported-models",
+        title: "ImportedModels",
+      },
     ]);
     return {
       links,
