@@ -19,6 +19,8 @@ import Raycaster from "../views/Raycaster.vue";
 import ScrollBasedAnimation from "../views/ScrollBasedAnimation.vue";
 import Physics from "../views/Physics.vue";
 import ImportedModels from "../views/ImportedModels.vue";
+import CustomModelsWithBlender from "../views/CustomModelsWithBlender.vue";
+import RealisticRender from "../views/RealisticRender.vue";
 
 const routes = [
   {
@@ -120,6 +122,16 @@ const routes = [
     path: "/imported-models",
     name: "ImportedModels",
     component: ImportedModels,
+  },
+  {
+    path: "/custom-models-with-blender",
+    name: "CustomModelsWithBlender",
+    component: CustomModelsWithBlender,
+  },
+  {
+    path: "/realistic-render",
+    name: "RealisticRender",
+    component: RealisticRender,
   },
 ];
 

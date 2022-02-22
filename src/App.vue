@@ -25,13 +25,102 @@
 </template>
 
 <script>
-import { ref } from "vue";
 import Drawer from "./components/Drawer.vue";
 export default {
   components: { Drawer },
+  data() {
+    return {
+      isMounted: false,
+      links: [
+        {
+          path: "/basic-scene",
+          title: "Basic Scene",
+        },
+        {
+          path: "/transform-objects",
+          title: "Transform Objects",
+        },
+        {
+          path: "/animations",
+          title: "Animations",
+        },
+        {
+          path: "/cameras",
+          title: "Cameras",
+        },
+        {
+          path: "/fullscreen-and-resizing",
+          title: "Fullscreen And Resizing",
+        },
+        {
+          path: "/geometries",
+          title: "Geometries",
+        },
+        {
+          path: "/debug-ui",
+          title: "Debug Ui",
+        },
+        {
+          path: "/textures",
+          title: "Textures",
+        },
+        {
+          path: "/materials",
+          title: "Materials",
+        },
+        {
+          path: "/text-3d",
+          title: "3D Text",
+        },
+        {
+          path: "/lights",
+          title: "Lights",
+        },
+        {
+          path: "/shadows",
+          title: "Shadows",
+        },
+        {
+          path: "/hunted-house",
+          title: "HuntedHouse",
+        },
+        {
+          path: "/particles",
+          title: "Particles",
+        },
+        {
+          path: "/galaxy-generator",
+          title: "Galaxy Generator",
+        },
+        {
+          path: "/raycaster",
+          title: "Raycaster",
+        },
+        {
+          path: "/scroll-based-animation",
+          title: "Scroll Based Animation",
+        },
+        {
+          path: "/physics",
+          title: "Physics",
+        },
+        {
+          path: "/imported-models",
+          title: "Imported Models",
+        },
+        {
+          path: "/custom-models-with-blender",
+          title: "Custom Models With Blender",
+        },
+        {
+          path: "/realistic-render",
+          title: "RealisticRender",
+        },
+      ],
+    };
+  },
   methods: {
     openMenu() {
-      this.hamburgerOpen = !this.hamburgerOpen;
       if (this.$refs.LeftDrawer.active) {
         this.$refs.LeftDrawer.close();
       } else {
@@ -39,89 +128,18 @@ export default {
       }
     },
   },
-  setup() {
-    const links = ref([
-      {
-        path: "/basic-scene",
-        title: "Basic Scene",
-      },
-      {
-        path: "/transform-objects",
-        title: "Transform Objects",
-      },
-      {
-        path: "/animations",
-        title: "Animations",
-      },
-      {
-        path: "/cameras",
-        title: "Cameras",
-      },
-      {
-        path: "/fullscreen-and-resizing",
-        title: "Fullscreen And Resizing",
-      },
-      {
-        path: "/geometries",
-        title: "Geometries",
-      },
-      {
-        path: "/debug-ui",
-        title: "Debug Ui",
-      },
-      {
-        path: "/textures",
-        title: "Textures",
-      },
-      {
-        path: "/materials",
-        title: "Materials",
-      },
-      {
-        path: "/text-3d",
-        title: "3D Text",
-      },
-      {
-        path: "/lights",
-        title: "Lights",
-      },
-      {
-        path: "/shadows",
-        title: "Shadows",
-      },
-      {
-        path: "/hunted-house",
-        title: "HuntedHouse",
-      },
-      {
-        path: "/particles",
-        title: "Particles",
-      },
-      {
-        path: "/galaxy-generator",
-        title: "Galaxy Generator",
-      },
-      {
-        path: "/raycaster",
-        title: "Raycaster",
-      },
-      {
-        path: "/scroll-based-animation",
-        title: "ScrollBasedAnimation",
-      },
-      {
-        path: "/physics",
-        title: "Physics",
-      },
-      {
-        path: "/imported-models",
-        title: "ImportedModels",
-      },
-    ]);
-    return {
-      links,
-      hamburgerOpen: ref(false),
-    };
+  computed: {
+    hamburgerOpen() {
+      if (!this.isMounted) return false;
+      if (this.$refs.LeftDrawer.active) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
+  mounted() {
+    this.isMounted = true;
   },
 };
 </script>
