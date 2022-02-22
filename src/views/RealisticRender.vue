@@ -19,6 +19,7 @@ export default {
     // Debug
     const actionsDebug = {};
     const gui = new dat.GUI();
+    const debugObject = {};
 
     // Canvas
     const webgl = ref(null);
@@ -30,55 +31,114 @@ export default {
       stats.dom.style.bottom = 0;
       stats.dom.style.top = "auto";
       document.body.appendChild(stats.dom);
+
+      /**
+       * Loaders
+       */
+      const gltfLoader = new GLTFLoader();
+      const cubeTextureLoader = new THREE.CubeTextureLoader();
+
       // Scene
       const scene = new THREE.Scene();
 
       /**
-       * Models
+       * Enviroment map
        */
-      const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath("/draco/");
-
-      const gltfLoader = new GLTFLoader();
-      gltfLoader.setDRACOLoader(dracoLoader);
-
-      let mixer = null;
-
-      gltfLoader.load("/models/hamburger.glb", (gltf) => {
-        scene.add(gltf.scene);
-      });
+      const environmentMap = cubeTextureLoader.load([
+        "/textures/environmentMaps/0/px.jpg",
+        "/textures/environmentMaps/0/nx.jpg",
+        "/textures/environmentMaps/0/py.jpg",
+        "/textures/environmentMaps/0/ny.jpg",
+        "/textures/environmentMaps/0/pz.jpg",
+        "/textures/environmentMaps/0/nz.jpg",
+      ]);
+      environmentMap.encoding = THREE.sRGBEncoding;
+      scene.background = environmentMap;
+      scene.environment = environmentMap;
+      debugObject.envMapIntensity = 2.5;
 
       /**
-       * Floor
+       * Update all materials
        */
-      const floor = new THREE.Mesh(
-        new THREE.PlaneGeometry(50, 50),
-        new THREE.MeshStandardMaterial({
-          color: "#444444",
-          metalness: 0,
-          roughness: 0.5,
-        })
-      );
-      floor.receiveShadow = true;
-      floor.rotation.x = -Math.PI * 0.5;
-      scene.add(floor);
+      const updateAllMaterials = () => {
+        scene.traverse((child) => {
+          if (
+            child instanceof THREE.Mesh &&
+            child.material instanceof THREE.MeshStandardMaterial
+          ) {
+            // child.material.envMap = environmentMap;
+            child.material.envMapIntensity = debugObject.envMapIntensity;
+            child.material.needsUpdate = true;
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+      };
+      gui
+        .add(debugObject, "envMapIntensity")
+        .min(0)
+        .max(10)
+        .step(0.001)
+        .onChange(updateAllMaterials);
+
+      /**
+       * Models
+       */
+      gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", (gltf) => {
+        gltf.scene.scale.set(10, 10, 10);
+        gltf.scene.position.set(0, -4, 0);
+        gltf.scene.rotation.y = Math.PI * 0.5;
+        scene.add(gltf.scene);
+
+        gui
+          .add(gltf.scene.rotation, "y")
+          .min(-Math.PI)
+          .max(Math.PI)
+          .step(0.001)
+          .name("rotation");
+
+        updateAllMaterials();
+      });
 
       /**
        * Lights
        */
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-      scene.add(ambientLight);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-      directionalLight.castShadow = true;
-      directionalLight.shadow.mapSize.set(1024, 1024);
+      const directionalLight = new THREE.DirectionalLight("#ffffff", 3);
       directionalLight.shadow.camera.far = 15;
-      directionalLight.shadow.camera.left = -7;
-      directionalLight.shadow.camera.top = 7;
-      directionalLight.shadow.camera.right = 7;
-      directionalLight.shadow.camera.bottom = -7;
-      directionalLight.position.set(5, 5, 5);
+      directionalLight.shadow.mapSize.set(1024, 1024);
+      directionalLight.position.set(0.25, 3, -2.25);
+      directionalLight.castShadow = true;
       scene.add(directionalLight);
+
+      // const directionalLightCameraHelper = new THREE.CameraHelper(
+      //   directionalLight.shadow.camera
+      // );
+      // scene.add(directionalLightCameraHelper);
+
+      gui
+        .add(directionalLight, "intensity")
+        .min(0)
+        .max(10)
+        .step(0.001)
+        .name("lightIntensity");
+      gui
+        .add(directionalLight.position, "x")
+        .min(-5)
+        .max(5)
+        .step(0.001)
+        .name("lightX");
+      gui
+        .add(directionalLight.position, "y")
+        .min(-5)
+        .max(5)
+        .step(0.001)
+        .name("lightY");
+      gui
+        .add(directionalLight.position, "z")
+        .min(-5)
+        .max(5)
+        .step(0.001)
+        .name("lightZ");
 
       /**
        * Sizes
@@ -112,12 +172,11 @@ export default {
         0.1,
         100
       );
-      camera.position.set(-8, 4, 8);
+      camera.position.set(4, 1, -4);
       scene.add(camera);
 
       // Controls
       const controls = new OrbitControls(camera, webgl.value);
-      controls.target.set(0, 1, 0);
       controls.enableDamping = true;
 
       /**
@@ -125,28 +184,33 @@ export default {
        */
       const renderer = new THREE.WebGLRenderer({
         canvas: webgl.value,
+        antialias: true,
       });
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setSize(sizes.width, sizes.height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.physicallyCorrectLights = true;
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ReinhardToneMapping;
+      renderer.toneMappingExposure = 3;
+      gui.add(renderer, "toneMappingExposure").min(0).max(10).step(0.001);
+      gui.add(renderer, "toneMapping", {
+        No: THREE.NoToneMapping,
+        Linear: THREE.LinearToneMapping,
+        Reinhard: THREE.ReinhardToneMapping,
+        Cineon: THREE.CineonToneMapping,
+        ACESFilmic: THREE.ACESFilmicToneMapping,
+      });
+      // .onFinishChange(() => {
+      //   updateAllMaterials();
+      // });
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
       /**
        * Animate
        */
-      const clock = new THREE.Clock();
-      let previousTime = 0;
-
       const tick = () => {
         stats.begin();
-
-        const elapsedTime = clock.getElapsedTime();
-        const deltaTime = elapsedTime - previousTime;
-        previousTime = elapsedTime;
-
-        if (mixer) {
-          mixer.update(deltaTime);
-        }
 
         // Update controls
         controls.update();
@@ -158,6 +222,8 @@ export default {
         window.requestAnimationFrame(tick);
         stats.end();
       };
+
+      tick();
 
       tick();
     });

@@ -44,8 +44,12 @@ export default {
 
       let mixer = null;
 
-      gltfLoader.load("/models/hamburger.glb", (gltf) => {
+      gltfLoader.load("/models/KUMBARA/untitled.gltf", (gltf) => {
+        console.log("gltf :>> ", gltf);
         scene.add(gltf.scene);
+        mixer = new THREE.AnimationMixer(gltf.scene);
+        const drop = mixer.clipAction(gltf.animations[0]);
+        drop.play();
       });
 
       /**
@@ -66,10 +70,10 @@ export default {
       /**
        * Lights
        */
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 2);
       scene.add(ambientLight);
 
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
       directionalLight.castShadow = true;
       directionalLight.shadow.mapSize.set(1024, 1024);
       directionalLight.shadow.camera.far = 15;
@@ -130,6 +134,8 @@ export default {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setSize(sizes.width, sizes.height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.physicallyCorrectLights = true;
 
       /**
        * Animate
